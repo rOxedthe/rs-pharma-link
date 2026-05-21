@@ -1,95 +1,93 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Preload } from "@react-three/drei";
 import * as THREE from "three";
 
-// Single door panel with its own pivot group
-function Door({
-  side,
-  triggered,
-}: {
-  side: "left" | "right";
-  triggered: boolean;
-}) {
+const DOOR_W = 1.46;   // each door panel width
+const DOOR_H = 3.0;
+const DOOR_D = 0.07;
+const HALF_W  = DOOR_W / 2;   // 0.73
+
+/**
+ * Correct pivot setup:
+ *   Left  door hinge at x = -HALF_W  (left edge of left panel)
+ *   Right door hinge at x = +HALF_W  (right edge of right panel)
+ *
+ * Each panel mesh is offset +HALF_W (left) or -HALF_W (right) from its pivot,
+ * so the panel center sits at ±HALF_W in world space.
+ *
+ * When we rotate the pivot group:
+ *   Left  pivot rotates -PI/2 → door swings backward-left  ✓
+ *   Right pivot rotates +PI/2 → door swings backward-right ✓
+ */
+function Door({ side, triggered }: { side: "left" | "right"; triggered: boolean }) {
   const pivotRef = useRef<THREE.Group>(null);
-  const opened = useRef(false);
-  const angle = useRef(0);
-  const targetAngle = side === "left" ? -Math.PI / 2 : Math.PI / 2;
+  const progress = useRef(0);
+  const target = side === "left" ? -Math.PI / 2 : Math.PI / 2;
 
   useFrame((_, delta) => {
-    if (!pivotRef.current) return;
-    if (triggered && !opened.current) {
-      angle.current = THREE.MathUtils.lerp(angle.current, targetAngle, delta * 1.6);
-      pivotRef.current.rotation.y = angle.current;
-      if (Math.abs(angle.current - targetAngle) < 0.005) opened.current = true;
-    }
+    if (!triggered || !pivotRef.current) return;
+    progress.current = THREE.MathUtils.lerp(progress.current, 1, delta * 1.4);
+    pivotRef.current.rotation.y = target * progress.current;
   });
 
-  // Door panel offset so it pivots on its hinge edge
-  const panelX = side === "left" ? 0.74 : -0.74;
+  // Hinge sits at the outer edge of each door
+  const pivotX = side === "left" ? -HALF_W : HALF_W;
+  // Panel centre is HALF_W inward from the hinge
+  const meshOffsetX = side === "left" ? HALF_W : -HALF_W;
+  // Handle sits on the inner edge
+  const handleX = side === "left" ? HALF_W - 0.14 : -(HALF_W - 0.14);
 
   return (
-    // Pivot point sits at the hinge edge
-    <group ref={pivotRef} position={[side === "left" ? -0.76 : 0.76, 0, 0]}>
-      <group position={[panelX, 0, 0]}>
+    <group ref={pivotRef} position={[pivotX, 0, 0]}>
+      {/* Door body */}
+      <mesh position={[meshOffsetX, 0, 0]} castShadow>
+        <boxGeometry args={[DOOR_W, DOOR_H, DOOR_D]} />
+        <meshStandardMaterial color="#EDE8DF" roughness={0.18} metalness={0.0} />
+      </mesh>
 
-        {/* Main door body — warm cream/frosted white */}
-        <mesh castShadow>
-          <boxGeometry args={[1.48, 3.0, 0.07]} />
-          <meshStandardMaterial
-            color="#EDE8DF"
-            roughness={0.18}
-            metalness={0.0}
-          />
-        </mesh>
+      {/* Top inset panel */}
+      <mesh position={[meshOffsetX, 0.7, DOOR_D / 2 + 0.008]} castShadow>
+        <boxGeometry args={[DOOR_W - 0.28, 0.72, 0.012]} />
+        <meshStandardMaterial color="#E2DDD4" roughness={0.3} />
+      </mesh>
 
-        {/* Inset panel top */}
-        <mesh position={[0, 0.65, 0.04]} castShadow>
-          <boxGeometry args={[0.88, 0.8, 0.015]} />
-          <meshStandardMaterial color="#E0DAD0" roughness={0.25} metalness={0.0} />
-        </mesh>
+      {/* Frosted glass centre pane */}
+      <mesh position={[meshOffsetX, 0.0, DOOR_D / 2 + 0.008]}>
+        <boxGeometry args={[DOOR_W - 0.28, 0.68, 0.01]} />
+        <meshStandardMaterial
+          color="#B8DDD8"
+          roughness={0.05}
+          transparent
+          opacity={0.38}
+        />
+      </mesh>
 
-        {/* Inset panel bottom */}
-        <mesh position={[0, -0.55, 0.04]} castShadow>
-          <boxGeometry args={[0.88, 0.6, 0.015]} />
-          <meshStandardMaterial color="#E0DAD0" roughness={0.25} metalness={0.0} />
-        </mesh>
+      {/* Bottom inset panel */}
+      <mesh position={[meshOffsetX, -0.72, DOOR_D / 2 + 0.008]} castShadow>
+        <boxGeometry args={[DOOR_W - 0.28, 0.58, 0.012]} />
+        <meshStandardMaterial color="#E2DDD4" roughness={0.3} />
+      </mesh>
 
-        {/* Frosted glass centre */}
-        <mesh position={[0, 0.1, 0.04]}>
-          <boxGeometry args={[0.88, 0.72, 0.012]} />
-          <meshStandardMaterial
-            color="#B8DDD8"
-            roughness={0.05}
-            metalness={0.0}
-            transparent
-            opacity={0.35}
-          />
-        </mesh>
+      {/* Thin teal stripe along hinge edge */}
+      <mesh position={[side === "left" ? meshOffsetX - HALF_W + 0.02 : meshOffsetX + HALF_W - 0.02, 0, 0]}>
+        <boxGeometry args={[0.04, DOOR_H, DOOR_D + 0.01]} />
+        <meshStandardMaterial color="#0D3D3A" roughness={0.4} />
+      </mesh>
 
-        {/* Teal border stripe along inner edge */}
-        <mesh position={[side === "left" ? 0.7 : -0.7, 0, 0]}>
-          <boxGeometry args={[0.04, 3.0, 0.09]} />
-          <meshStandardMaterial color="#0D3D3A" roughness={0.3} />
-        </mesh>
+      {/* Gold handle */}
+      <mesh position={[handleX, 0.04, DOOR_D / 2 + 0.044]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.026, 0.026, 0.26, 16]} />
+        <meshStandardMaterial color="#C9A84C" roughness={0.1} metalness={0.88} />
+      </mesh>
 
-        {/* Gold door handle */}
-        <mesh
-          position={[side === "left" ? 0.52 : -0.52, 0.05, 0.07]}
-          rotation={[Math.PI / 2, 0, 0]}
-        >
-          <cylinderGeometry args={[0.028, 0.028, 0.28, 16]} />
-          <meshStandardMaterial color="#C9A84C" roughness={0.12} metalness={0.85} />
-        </mesh>
-
-        {/* Handle backplate */}
-        <mesh position={[side === "left" ? 0.52 : -0.52, 0.05, 0.055]}>
-          <boxGeometry args={[0.07, 0.22, 0.01]} />
-          <meshStandardMaterial color="#B8963E" roughness={0.2} metalness={0.7} />
-        </mesh>
-      </group>
+      {/* Handle backplate */}
+      <mesh position={[handleX, 0.04, DOOR_D / 2 + 0.032]}>
+        <boxGeometry args={[0.064, 0.2, 0.008]} />
+        <meshStandardMaterial color="#A8872E" roughness={0.2} metalness={0.75} />
+      </mesh>
     </group>
   );
 }
@@ -97,57 +95,40 @@ function Door({
 function Scene({ triggered }: { triggered: boolean }) {
   return (
     <>
-      {/* Strong ambient — makes everything visible */}
-      <ambientLight intensity={1.4} color="#FFF8F0" />
+      <ambientLight intensity={1.6} color="#FFF8F2" />
+      <directionalLight position={[3, 6, 5]} intensity={2.0} color="#FFFFFF" castShadow />
+      <pointLight position={[-3, 2, 3]} intensity={1.2} color="#F4F1EB" />
+      <pointLight position={[3, 1, 3]}  intensity={0.8} color="#E8C97A" />
+      {/* Warm glow behind doors — brightens when open */}
+      <pointLight position={[0, 0, -1.8]} intensity={triggered ? 2.8 : 0.2} color="#E8C97A" distance={5} />
+      <pointLight position={[0, -2, 1]}   intensity={0.5} color="#2EC4B6" />
 
-      {/* Key light from front-top */}
-      <directionalLight
-        position={[2, 5, 4]}
-        intensity={1.8}
-        color="#FFFFFF"
-        castShadow
-      />
-
-      {/* Fill light from left */}
-      <pointLight position={[-3, 2, 2]} intensity={1.0} color="#F4F1EB" />
-
-      {/* Warm accent from behind doors (glows stronger when open) */}
-      <pointLight
-        position={[0, 0, -2]}
-        intensity={triggered ? 2.2 : 0.3}
-        color="#E8C97A"
-        distance={6}
-      />
-
-      {/* Teal rim from below */}
-      <pointLight position={[0, -3, 1]} intensity={0.6} color="#2EC4B6" />
-
-      {/* Door frame — deep teal */}
-      <mesh position={[0, 0, -0.06]} receiveShadow>
-        <boxGeometry args={[3.3, 3.4, 0.06]} />
-        <meshStandardMaterial color="#0D3D3A" roughness={0.5} metalness={0.05} />
+      {/* Door frame */}
+      <mesh position={[0, 0, -0.05]} receiveShadow>
+        <boxGeometry args={[3.2, DOOR_H + 0.32, 0.08]} />
+        <meshStandardMaterial color="#0D3D3A" roughness={0.45} />
       </mesh>
 
-      {/* Frame inner reveal */}
+      {/* Frame inner cutout colour */}
       <mesh position={[0, 0, -0.02]}>
-        <boxGeometry args={[3.08, 3.18, 0.04]} />
-        <meshStandardMaterial color="#0A2E2B" roughness={0.6} />
+        <boxGeometry args={[2.98, DOOR_H + 0.12, 0.05]} />
+        <meshStandardMaterial color="#092E2B" roughness={0.6} />
       </mesh>
 
-      {/* Warm interior glow plane (only visible when doors open) */}
-      <mesh position={[0, 0, -0.9]}>
-        <planeGeometry args={[3, 3.2]} />
+      {/* Warm interior plane — glows on open */}
+      <mesh position={[0, 0, -1.0]}>
+        <planeGeometry args={[3, DOOR_H]} />
         <meshStandardMaterial
           color="#E8C97A"
           emissive="#E8C97A"
-          emissiveIntensity={triggered ? 0.25 : 0.02}
+          emissiveIntensity={triggered ? 0.28 : 0.02}
           roughness={1}
         />
       </mesh>
 
-      {/* Shadow receiving floor */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.55, 0]} receiveShadow>
-        <planeGeometry args={[8, 5]} />
+      {/* Floor */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -DOOR_H / 2, 0]} receiveShadow>
+        <planeGeometry args={[8, 6]} />
         <meshStandardMaterial color="#E8E3D9" roughness={1} />
       </mesh>
 
@@ -157,21 +138,15 @@ function Scene({ triggered }: { triggered: boolean }) {
   );
 }
 
-interface DoorRevealProps {
-  triggered?: boolean;
-}
-
-export default function DoorReveal({ triggered = false }: DoorRevealProps) {
+export default function DoorReveal({ triggered = false }: { triggered?: boolean }) {
   return (
     <Canvas
-      camera={{ position: [0, 0.3, 5.5], fov: 44 }}
+      camera={{ position: [0, 0.2, 5.2], fov: 46 }}
       style={{ width: "100%", height: "100%" }}
       gl={{ antialias: true, alpha: false }}
       shadows
       dpr={[1, 1.5]}
-      onCreated={({ gl }) => {
-        gl.setClearColor("#F4F1EB");
-      }}
+      onCreated={({ gl }) => gl.setClearColor("#F4F1EB")}
     >
       <Scene triggered={triggered} />
       <Preload all />
