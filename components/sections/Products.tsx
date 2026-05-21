@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, HeartPulse, Pill, ShieldCheck, Thermometer } from "lucide-react";
 import SectionTransition from "@/components/ui/SectionTransition";
 import Fallback3D from "@/components/3d/Fallback3D";
+import TiltCard from "@/components/ui/TiltCard";
 
 const ProductShelf = dynamic(() => import("@/components/3d/ProductShelf"), {
   ssr: false,
@@ -51,7 +52,7 @@ export default function Products() {
 
         <SectionTransition stagger className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {categories.map(({ icon: Icon, label, detail }) => (
-            <div key={label} className="glass-card p-5 text-left">
+            <TiltCard key={label} className="glass-card p-5 text-left">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: "rgba(13,61,58,0.09)" }}>
                 <Icon size={18} style={{ color: "var(--color-primary)" }} />
               </div>
@@ -61,7 +62,7 @@ export default function Products() {
               <p className="text-xs leading-relaxed" style={{ color: "var(--color-muted)", fontFamily: "var(--font-body)" }}>
                 {detail}
               </p>
-            </div>
+            </TiltCard>
           ))}
         </SectionTransition>
 

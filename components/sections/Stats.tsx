@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { Suspense, useEffect, useRef, useState } from "react";
 import SectionTransition from "@/components/ui/SectionTransition";
 import Fallback3D from "@/components/3d/Fallback3D";
+import TiltCard from "@/components/ui/TiltCard";
 
 const StatsChart = dynamic(() => import("@/components/3d/StatsChart"), {
   ssr: false,
@@ -62,7 +63,12 @@ export default function Stats() {
         {/* Stat labels */}
         <SectionTransition stagger className="card-grid grid grid-cols-2 md:grid-cols-5 gap-6">
           {stats.map(({ value, label, mono }) => (
-            <div key={mono} className="text-center">
+            <TiltCard
+              key={mono}
+              className="text-center rounded-xl py-5 px-3"
+              intensity={10}
+              spotColor="rgba(46,196,182,0.18)"
+            >
               <p
                 className="font-mono-label mb-1"
                 style={{ color: "var(--color-medical)", fontSize: "0.6rem" }}
@@ -87,7 +93,7 @@ export default function Stats() {
               >
                 {label}
               </p>
-            </div>
+            </TiltCard>
           ))}
         </SectionTransition>
       </div>

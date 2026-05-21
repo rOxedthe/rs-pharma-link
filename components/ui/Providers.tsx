@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 import Lenis from "@studio-freight/lenis";
 import { initGSAP, ScrollTrigger } from "@/lib/gsap";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 export default function Providers({ children }: { children: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     initGSAP();
@@ -13,12 +15,10 @@ export default function Providers({ children }: { children: ReactNode }) {
     const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
     lenisRef.current = lenis;
 
-    // Sync Lenis with GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 
-    const gsapTick = (time: number) => lenis.raf(time * 1000);
-    // Use GSAP ticker
     const { gsap } = require("gsap");
+    const gsapTick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(gsapTick);
     gsap.ticker.lagSmoothing(0);
 
@@ -28,5 +28,11 @@ export default function Providers({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      {/* Loading screen — covers the page on every hard load / refresh */}
+      {!loaded && <LoadingScreen onComplete={() => setLoaded(true)} />}
+      {children}
+    </>
+  );
 }
