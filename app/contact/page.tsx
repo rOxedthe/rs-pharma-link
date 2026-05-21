@@ -28,21 +28,21 @@ export default function ContactPage() {
     <>
       {/* Hero */}
       <section className="section-pad" style={{ background: "var(--color-dark)", paddingTop: "10rem" }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <SectionTransition stagger>
-              <p className="font-mono-label mb-5" style={{ color: "var(--color-medical)" }}>— GET IN TOUCH</p>
+            <SectionTransition stagger className="content-measure mx-auto text-center lg:text-left">
+              <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>— GET IN TOUCH</p>
               <h1 style={{ fontFamily: "var(--font-display)", color: "var(--color-bg)", fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)", lineHeight: 1.08, marginBottom: "1.5rem" }}>
                 Let&apos;s Build Nepal&apos;s{" "}
                 <span style={{ color: "var(--color-accent)" }}>Healthcare Future</span>{" "}
                 Together
               </h1>
-              <p className="text-base leading-relaxed" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
+              <p className="text-base leading-relaxed mx-auto lg:mx-0" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
                 Whether you&apos;re a pharmacy looking for a reliable distributor, a hospital managing procurement, or a manufacturer seeking a partner — we&apos;d love to connect.
               </p>
             </SectionTransition>
             {/* 3D Map */}
-            <div style={{ height: "420px" }}>
+            <div className="scene-frame">
               <Suspense fallback={<Fallback3D label="Kathmandu Map" height="420px" />}>
                 <MapPinScene />
               </Suspense>
@@ -53,16 +53,16 @@ export default function ContactPage() {
 
       {/* Contact section */}
       <section className="section-pad" style={{ background: "var(--color-bg)" }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Info */}
-            <SectionTransition stagger>
-              <p className="font-mono-label mb-6" style={{ color: "var(--color-medical)" }}>— FIND US</p>
+            <SectionTransition stagger className="content-measure mx-auto text-center lg:text-left">
+              <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>— FIND US</p>
               <h2 style={{ fontFamily: "var(--font-display)", color: "var(--color-primary)", fontSize: "clamp(1.6rem, 3vw, 2.4rem)", marginBottom: "2rem" }}>
                 Visit Our Office in{" "}
                 <span style={{ color: "var(--color-accent)" }}>Golfutar</span>
               </h2>
-              <div className="space-y-5">
+              <div className="space-y-5 text-left">
                 {contactInfo.map(({ icon: Icon, label, value, href }) => (
                   <div key={label} className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(13,61,58,0.08)" }}>

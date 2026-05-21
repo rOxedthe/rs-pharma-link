@@ -53,20 +53,20 @@ export default function ServicesPage() {
     <>
       {/* Hero */}
       <section className="section-pad" style={{ background: "var(--color-dark)", paddingTop: "10rem" }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <SectionTransition stagger>
-              <p className="font-mono-label mb-5" style={{ color: "var(--color-medical)" }}>— OUR SERVICES</p>
+            <SectionTransition stagger className="content-measure mx-auto text-center lg:text-left">
+              <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>— OUR SERVICES</p>
               <h1 style={{ fontFamily: "var(--font-display)", color: "var(--color-bg)", fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)", lineHeight: 1.08, marginBottom: "1.5rem" }}>
                 The Complete{" "}
                 <span style={{ color: "var(--color-accent)" }}>Pharma Supply</span>{" "}
                 Solution
               </h1>
-              <p className="text-base leading-relaxed" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
+              <p className="text-base leading-relaxed mx-auto lg:mx-0" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
                 From procurement to patient — we manage every link in the pharmaceutical supply chain so you can focus on healthcare.
               </p>
             </SectionTransition>
-            <div style={{ height: "420px" }}>
+            <div className="scene-frame">
               <Suspense fallback={<Fallback3D label="Supply Chain" height="420px" />}>
                 <SupplyChain />
               </Suspense>
@@ -77,14 +77,14 @@ export default function ServicesPage() {
 
       {/* Services grid */}
       <section className="section-pad" style={{ background: "var(--color-bg)" }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionTransition className="text-center mb-16">
+        <div className="section-container">
+          <SectionTransition className="section-header mb-16">
             <h2 style={{ fontFamily: "var(--font-display)", color: "var(--color-primary)", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)" }}>
               Everything You Need,{" "}
               <span style={{ color: "var(--color-accent)" }}>Under One Roof</span>
             </h2>
           </SectionTransition>
-          <SectionTransition stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SectionTransition stagger className="card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map(({ icon: Icon, title, desc, features }) => (
               <div key={title} className="glass-card p-6 group hover:-translate-y-2 transition-all duration-300" data-cursor="hover">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style={{ background: "rgba(13,61,58,0.1)" }}>
@@ -108,7 +108,7 @@ export default function ServicesPage() {
 
       {/* CTA */}
       <section className="section-pad text-center" style={{ background: "var(--color-dark)" }}>
-        <SectionTransition>
+        <SectionTransition className="section-container section-header">
           <h2 style={{ fontFamily: "var(--font-display)", color: "var(--color-bg)", fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", marginBottom: "1.5rem" }}>
             Start Your Partnership Today
           </h2>

@@ -16,21 +16,25 @@ const services = [
     icon: Package,
     title: "Pharmaceutical Distribution",
     desc: "End-to-end medicine distribution from licensed manufacturers to certified pharmacies and hospitals across Nepal.",
+    meta: "Wholesale supply",
   },
   {
     icon: Truck,
     title: "Cold-Chain Logistics",
     desc: "Temperature-controlled delivery for biologicals, vaccines, and sensitive pharmaceutical products.",
+    meta: "2-8°C handling",
   },
   {
     icon: ClipboardList,
     title: "Inventory Management",
     desc: "Automated stock tracking, expiry monitoring, and demand forecasting for your pharmacy.",
+    meta: "Expiry control",
   },
   {
     icon: HeartPulse,
     title: "Healthcare Linkage",
     desc: "Connecting healthcare institutions directly with manufacturers for bulk procurement and tender supply.",
+    meta: "Institutional supply",
   },
 ];
 
@@ -40,10 +44,10 @@ export default function Services() {
       className="section-pad relative"
       style={{ background: "var(--color-dark)" }}
     >
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="section-container">
         {/* Header */}
-        <SectionTransition className="text-center mb-16">
-          <p className="font-mono-label mb-4" style={{ color: "var(--color-medical)" }}>
+        <SectionTransition className="section-header mb-16">
+          <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>
             — OUR SERVICES
           </p>
           <h2
@@ -58,20 +62,23 @@ export default function Services() {
             <span style={{ color: "var(--color-accent)" }}>Supply Chain</span>{" "}
             Solution
           </h2>
+          <p className="mt-5 text-sm leading-relaxed mx-auto" style={{ color: "rgba(244,241,235,0.58)", fontFamily: "var(--font-body)", maxWidth: "38rem" }}>
+            Built for repeated pharmacy operations: verified sourcing, clear dispatch routines, and careful handling for medicines that cannot afford delays.
+          </p>
         </SectionTransition>
 
         {/* 3D scene + cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* 3D Supply chain */}
-          <div style={{ height: "420px" }}>
+          <div className="scene-frame">
             <Suspense fallback={<Fallback3D label="Supply Chain Network" height="420px" />}>
               <SupplyChain />
             </Suspense>
           </div>
 
           {/* Service cards */}
-          <SectionTransition stagger className="grid grid-cols-1 gap-5">
-            {services.map(({ icon: Icon, title, desc }) => (
+          <SectionTransition stagger className="card-grid grid grid-cols-1 gap-5">
+            {services.map(({ icon: Icon, title, desc, meta }) => (
               <div
                 key={title}
                 className="glass-card-dark flex items-start gap-4 p-5 transition-all duration-300 hover:-translate-y-1"
@@ -85,6 +92,9 @@ export default function Services() {
                   <Icon size={18} style={{ color: "var(--color-medical)" }} />
                 </div>
                 <div>
+                  <p className="font-mono-label mb-2" style={{ color: "var(--color-accent)", fontSize: "0.55rem" }}>
+                    {meta}
+                  </p>
                   <h3
                     className="text-sm font-semibold mb-1"
                     style={{ color: "var(--color-bg)", fontFamily: "var(--font-body)" }}

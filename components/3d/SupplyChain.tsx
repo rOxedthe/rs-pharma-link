@@ -6,11 +6,11 @@ import { Html, Preload } from "@react-three/drei";
 import * as THREE from "three";
 
 const NODES = [
-  { id: "manufacturer", label: "Manufacturer", desc: "Raw material sourcing & production", pos: [-2.8, 1.2, 0] as [number, number, number], color: "#2EC4B6" },
-  { id: "distributor",  label: "R.S. Pharma",  desc: "Quality distribution & logistics",  pos: [0,   0,   0] as [number, number, number], color: "#E8C97A" },
-  { id: "pharmacy",     label: "Pharmacy",      desc: "Retail dispensing & patient care",   pos: [2.8, 1.2, 0] as [number, number, number], color: "#2EC4B6" },
-  { id: "hospital",     label: "Hospital",      desc: "Institutional healthcare supply",    pos: [2.8,-1.2, 0] as [number, number, number], color: "#2EC4B6" },
-  { id: "patient",      label: "Patient",       desc: "End-to-end care delivered",          pos: [-2.8,-1.2, 0] as [number, number, number], color: "#0D3D3A" },
+  { id: "manufacturer", label: "Manufacturer", desc: "Raw material sourcing & production", pos: [-2.8, 1.2, 0] as [number, number, number], color: "#2EC4B6", size: 0.28 },
+  { id: "distributor",  label: "R.S. Pharma",  desc: "Quality distribution & logistics",  pos: [0,   0,   0] as [number, number, number], color: "#E8C97A", size: 0.38 },
+  { id: "pharmacy",     label: "Pharmacy",      desc: "Retail dispensing & patient care",   pos: [2.8, 1.2, 0] as [number, number, number], color: "#2EC4B6", size: 0.28 },
+  { id: "hospital",     label: "Hospital",      desc: "Institutional healthcare supply",    pos: [2.8,-1.2, 0] as [number, number, number], color: "#2EC4B6", size: 0.24 },
+  { id: "patient",      label: "Patient",       desc: "End-to-end care delivered",          pos: [-2.8,-1.2, 0] as [number, number, number], color: "#E8C97A", size: 0.22 },
 ];
 
 const EDGES = [
@@ -31,8 +31,8 @@ function DataPacket({ start, end, speed = 1 }: { start: THREE.Vector3; end: THRE
 
   return (
     <mesh ref={ref}>
-      <boxGeometry args={[0.12, 0.12, 0.12]} />
-      <meshStandardMaterial color="#E8C97A" emissive="#E8C97A" emissiveIntensity={0.8} />
+      <sphereGeometry args={[0.07, 8, 8]} />
+      <meshStandardMaterial color="#E8C97A" emissive="#E8C97A" emissiveIntensity={1.4} />
     </mesh>
   );
 }
@@ -44,6 +44,7 @@ function Node({ node, isHovered, onHover }: {
 }) {
   const ref = useRef<THREE.Mesh>(null);
   const ringRef = useRef<THREE.Mesh>(null);
+  const r = node.size;
 
   useFrame((_, delta) => {
     if (!ringRef.current) return;
@@ -57,7 +58,7 @@ function Node({ node, isHovered, onHover }: {
         ));
     } else {
       ringRef.current.scale.setScalar(1);
-      (ringRef.current.material as THREE.MeshStandardMaterial).opacity = 0.4;
+      (ringRef.current.material as THREE.MeshStandardMaterial).opacity = 0.55;
     }
   });
 
@@ -65,8 +66,8 @@ function Node({ node, isHovered, onHover }: {
     <group position={node.pos}>
       {/* Pulse ring */}
       <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[0.28, 0.34, 32]} />
-        <meshStandardMaterial color={node.color} emissive={node.color} emissiveIntensity={0.6} transparent opacity={0.4} side={THREE.DoubleSide} />
+        <ringGeometry args={[r + 0.06, r + 0.1, 32]} />
+        <meshStandardMaterial color={node.color} emissive={node.color} emissiveIntensity={0.9} transparent opacity={0.55} side={THREE.DoubleSide} />
       </mesh>
       {/* Node sphere */}
       <mesh
@@ -75,12 +76,13 @@ function Node({ node, isHovered, onHover }: {
         onPointerLeave={() => onHover(null)}
         scale={isHovered ? 1.35 : 1}
       >
-        <sphereGeometry args={[0.28, 24, 24]} />
+        <sphereGeometry args={[r, 24, 24]} />
         <meshStandardMaterial
           color={node.color}
           emissive={node.color}
-          emissiveIntensity={isHovered ? 0.8 : 0.35}
-          roughness={0.2}
+          emissiveIntensity={isHovered ? 1.0 : 0.55}
+          roughness={0.15}
+          metalness={0.1}
         />
       </mesh>
       {/* Label */}
@@ -121,7 +123,7 @@ function Edge({ from, to }: { from: typeof NODES[0]; to: typeof NODES[0] }) {
   }, [points]);
 
   const lineObj = useMemo(() => {
-    const mat = new THREE.LineBasicMaterial({ color: "#2EC4B6", transparent: true, opacity: 0.35 });
+    const mat = new THREE.LineBasicMaterial({ color: "#2EC4B6", transparent: true, opacity: 0.55 });
     return new THREE.Line(geo, mat);
   }, [geo]);
 
@@ -143,9 +145,10 @@ function Scene() {
 
   return (
     <group ref={groupRef}>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[0, 4, 4]} intensity={1.5} color="#2EC4B6" />
-      <pointLight position={[0, -4, -2]} intensity={0.8} color="#E8C97A" />
+      <ambientLight intensity={1.2} color="#F4F1EB" />
+      <pointLight position={[0, 4, 4]}  intensity={2.0} color="#2EC4B6" />
+      <pointLight position={[0, -4, -2]} intensity={1.4} color="#E8C97A" />
+      <pointLight position={[0, 0, 5]}  intensity={0.8} color="#FFFFFF" />
       {EDGES.map(([i, j]) => (
         <Edge key={`${i}-${j}`} from={NODES[i]} to={NODES[j]} />
       ))}

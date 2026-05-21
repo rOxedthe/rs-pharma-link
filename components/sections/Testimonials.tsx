@@ -37,9 +37,9 @@ export default function Testimonials() {
       className="section-pad relative overflow-hidden"
       style={{ background: "var(--color-bg)" }}
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionTransition className="text-center mb-16">
-          <p className="font-mono-label mb-4" style={{ color: "var(--color-medical)" }}>
+      <div className="section-container">
+        <SectionTransition className="section-header mb-16">
+          <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>
             — PARTNERS & TESTIMONIALS
           </p>
           <h2 style={{
@@ -54,14 +54,14 @@ export default function Testimonials() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* 3D orbit */}
-          <div style={{ height: "400px" }}>
+          <div className="scene-frame">
             <Suspense fallback={<Fallback3D label="Partner Orbit" height="400px" />}>
               <PartnerOrbit />
             </Suspense>
           </div>
 
           {/* Testimonial cards */}
-          <SectionTransition stagger className="flex flex-col gap-5">
+          <SectionTransition stagger className="card-grid flex flex-col gap-5">
             {testimonials.map(({ quote, name, role, initial }) => (
               <div key={name} className="glass-card p-6">
                 <p

@@ -3,9 +3,8 @@
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import Link from "next/link";
-import { Briefcase, MapPin, ArrowRight } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import SectionTransition from "@/components/ui/SectionTransition";
-import Fallback3D from "@/components/3d/Fallback3D";
 
 const CareersMolecule = dynamic(() => import("@/components/3d/CareersMolecule"), { ssr: false });
 
@@ -60,15 +59,15 @@ export default function CareersPage() {
             <CareersMolecule />
           </Suspense>
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <SectionTransition stagger className="max-w-2xl">
-            <p className="font-mono-label mb-5" style={{ color: "var(--color-medical)" }}>— CAREERS</p>
+        <div className="relative z-10 section-container">
+          <SectionTransition stagger className="content-measure mx-auto lg:mx-0 text-center lg:text-left">
+            <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>— CAREERS</p>
             <h1 style={{ fontFamily: "var(--font-display)", color: "var(--color-bg)", fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)", lineHeight: 1.08, marginBottom: "1.5rem" }}>
               Build Nepal&apos;s{" "}
               <span style={{ color: "var(--color-accent)" }}>Healthcare Future</span>{" "}
               With Us
             </h1>
-            <p className="text-base leading-relaxed mb-8" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
+            <p className="text-base leading-relaxed mb-8 mx-auto lg:mx-0" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
               We&apos;re a team of passionate professionals dedicated to making quality medicines accessible across Nepal. Join us and make a real difference in people&apos;s lives every day.
             </p>
             <a href="#openings" className="btn-pill btn-primary inline-flex items-center gap-2" data-cursor="hover">
@@ -80,16 +79,16 @@ export default function CareersPage() {
 
       {/* Perks */}
       <section className="section-pad" style={{ background: "var(--color-bg)" }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionTransition className="text-center mb-14">
-            <p className="font-mono-label mb-4" style={{ color: "var(--color-medical)" }}>— WHY JOIN US</p>
+        <div className="section-container">
+          <SectionTransition className="section-header mb-14">
+            <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>— WHY JOIN US</p>
             <h2 style={{ fontFamily: "var(--font-display)", color: "var(--color-primary)", fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)" }}>
               A Place Where{" "}
               <span style={{ color: "var(--color-accent)" }}>Good Work</span>{" "}
               Matters
             </h2>
           </SectionTransition>
-          <SectionTransition stagger className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <SectionTransition stagger className="card-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {perks.map((perk) => (
               <div key={perk} className="glass-card p-5 flex items-start gap-3">
                 <span style={{ color: "var(--color-medical)", fontWeight: 700, fontSize: "1rem", flexShrink: 0 }}>✦</span>
@@ -102,14 +101,14 @@ export default function CareersPage() {
 
       {/* Openings */}
       <section id="openings" className="section-pad" style={{ background: "var(--color-dark)" }}>
-        <div className="max-w-5xl mx-auto px-6">
-          <SectionTransition className="text-center mb-14">
-            <p className="font-mono-label mb-4" style={{ color: "var(--color-medical)" }}>— OPEN POSITIONS</p>
+        <div className="section-container" style={{ maxWidth: "64rem" }}>
+          <SectionTransition className="section-header mb-14">
+            <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>— OPEN POSITIONS</p>
             <h2 style={{ fontFamily: "var(--font-display)", color: "var(--color-bg)", fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)" }}>
               Current Openings
             </h2>
           </SectionTransition>
-          <SectionTransition stagger className="space-y-5">
+          <SectionTransition stagger className="card-grid space-y-5">
             {openings.map(({ title, dept, location, type, desc }) => (
               <div
                 key={title}
@@ -138,7 +137,7 @@ export default function CareersPage() {
               </div>
             ))}
           </SectionTransition>
-          <SectionTransition className="text-center mt-12">
+          <SectionTransition className="section-header mt-12">
             <p className="text-sm mb-4" style={{ color: "rgba(244,241,235,0.5)", fontFamily: "var(--font-body)" }}>
               Don&apos;t see a role that fits? Send us your CV anyway.
             </p>

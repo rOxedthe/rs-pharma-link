@@ -69,7 +69,7 @@ export default function Navbar() {
                   fontFamily: "var(--font-display)",
                   color: scrolled ? "var(--color-accent)" : "var(--color-accent)",
                   fontSize: "1.1rem",
-                  letterSpacing: "-0.01em",
+                  letterSpacing: 0,
                   display: "block",
                   lineHeight: 1.1,
                 }}

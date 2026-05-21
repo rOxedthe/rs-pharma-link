@@ -28,8 +28,11 @@ function Door({ side, triggered }: { side: "left" | "right"; triggered: boolean 
   const target = side === "left" ? -Math.PI / 2 : Math.PI / 2;
 
   useFrame((_, delta) => {
-    if (!triggered || !pivotRef.current) return;
-    progress.current = THREE.MathUtils.lerp(progress.current, 1, delta * 1.4);
+    if (!pivotRef.current) return;
+    // Open on hover, close when hover ends
+    const goalProgress = triggered ? 1 : 0;
+    const speed = triggered ? 1.4 : 2.0; // close slightly faster than open
+    progress.current = THREE.MathUtils.lerp(progress.current, goalProgress, delta * speed);
     pivotRef.current.rotation.y = target * progress.current;
   });
 
@@ -100,7 +103,7 @@ function Scene({ triggered }: { triggered: boolean }) {
       <pointLight position={[-3, 2, 3]} intensity={1.2} color="#F4F1EB" />
       <pointLight position={[3, 1, 3]}  intensity={0.8} color="#E8C97A" />
       {/* Warm glow behind doors — brightens when open */}
-      <pointLight position={[0, 0, -1.8]} intensity={triggered ? 2.8 : 0.2} color="#E8C97A" distance={5} />
+      <pointLight position={[0, 0, -1.8]} intensity={triggered ? 2.8 : 0.15} color="#E8C97A" distance={5} />
       <pointLight position={[0, -2, 1]}   intensity={0.5} color="#2EC4B6" />
 
       {/* Door frame */}

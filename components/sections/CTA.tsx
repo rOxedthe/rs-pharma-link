@@ -34,8 +34,8 @@ export default function CTA() {
       </div>
 
       {/* Content — every element gets text-center explicitly */}
-      <div className="relative z-10 max-w-2xl mx-auto px-6">
-        <p className="text-center font-mono-label mb-5" style={{ color: "var(--color-medical)" }}>
+      <div className="relative z-10 section-container section-header">
+        <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>
           — BECOME A PARTNER
         </p>
 
@@ -63,7 +63,7 @@ export default function CTA() {
           R.S. Pharma Link for reliable, quality-assured pharmaceutical distribution.
         </p>
 
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link href="/contact" className="btn-pill btn-primary inline-flex items-center gap-2" data-cursor="hover">
             Get in Touch <ArrowRight size={15} />
           </Link>

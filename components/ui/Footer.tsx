@@ -36,12 +36,12 @@ export default function Footer() {
         userSelect: "none",
         pointerEvents: "none",
         whiteSpace: "nowrap",
-        letterSpacing: "-0.04em",
+        letterSpacing: 0,
       }}>
         Pharma Link
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-14 pb-8 relative z-10">
+      <div className="section-container pt-14 pb-8 relative z-10">
 
         {/* ── Top brand bar ── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
@@ -58,27 +58,27 @@ export default function Footer() {
               </span>
             </div>
             <p style={{ fontFamily: "var(--font-jakarta)", color: "rgba(244,241,235,0.38)", fontSize: "0.85rem", maxWidth: 340, lineHeight: 1.6 }}>
-              Nepal's trusted bridge between pharmaceutical manufacturers and healthcare providers — Golfutar, Kathmandu.
+              Nepal&apos;s trusted bridge between pharmaceutical manufacturers and healthcare providers — Golfutar, Kathmandu.
             </p>
           </div>
 
           {/* Newsletter — right side of top bar */}
-          <div style={{ flexShrink: 0, minWidth: 280 }}>
+          <div className="w-full md:w-auto" style={{ flexShrink: 0, minWidth: 0 }}>
             <p style={{ fontFamily: "var(--font-space-mono)", color: "var(--color-accent)", fontSize: "0.58rem", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
               Stay Updated
             </p>
             {subscribed ? (
               <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "0.6rem 1rem", borderRadius: 10, background: "rgba(46,196,182,0.08)", border: "1px solid rgba(46,196,182,0.2)" }}>
                 <span style={{ color: "var(--color-medical)" }}>✓</span>
-                <span style={{ fontFamily: "var(--font-jakarta)", color: "var(--color-medical)", fontSize: "0.825rem" }}>You're subscribed!</span>
+                <span style={{ fontFamily: "var(--font-jakarta)", color: "var(--color-medical)", fontSize: "0.825rem" }}>You&apos;re subscribed!</span>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); if (email) setSubscribed(true); }} style={{ display: "flex", gap: 8 }}>
+              <form className="flex flex-col sm:flex-row gap-2" onSubmit={(e) => { e.preventDefault(); if (email) setSubscribed(true); }}>
                 <input
                   type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com" required aria-label="Newsletter email"
                   style={{
-                    flex: 1, padding: "0.6rem 0.875rem", borderRadius: 10,
+                    flex: 1, minWidth: 0, padding: "0.6rem 0.875rem", borderRadius: 10,
                     background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
                     color: "rgba(244,241,235,0.75)", fontFamily: "var(--font-jakarta)", fontSize: "0.825rem", outline: "none",
                   }}
@@ -86,7 +86,7 @@ export default function Footer() {
                   onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.08)"}
                 />
                 <button type="submit" data-cursor="hover" style={{
-                  display: "flex", alignItems: "center", gap: 6,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   padding: "0.6rem 1rem", borderRadius: 10,
                   background: "var(--color-accent)", color: "var(--color-primary)",
                   fontFamily: "var(--font-jakarta)", fontWeight: 600, fontSize: "0.8rem",

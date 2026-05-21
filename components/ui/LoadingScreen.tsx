@@ -100,7 +100,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
                 fontFamily: "var(--font-display)",
                 color: "var(--color-accent)",
                 fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
-                letterSpacing: "-0.02em",
+                letterSpacing: 0,
               }}
             >
               R.S. Pharma Link

@@ -37,9 +37,9 @@ export default function Stats() {
       className="section-pad relative overflow-hidden"
       style={{ background: "var(--color-dark)" }}
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionTransition className="text-center mb-16">
-          <p className="font-mono-label mb-4" style={{ color: "var(--color-medical)" }}>
+      <div className="section-container">
+        <SectionTransition className="section-header mb-16">
+          <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>
             — BY THE NUMBERS
           </p>
           <h2 style={{
@@ -53,14 +53,14 @@ export default function Stats() {
         </SectionTransition>
 
         {/* 3D Chart */}
-        <div style={{ height: "340px", marginBottom: "3rem" }}>
+        <div className="scene-frame" style={{ marginBottom: "3rem", maxHeight: "340px" }}>
           <Suspense fallback={<Fallback3D label="Stats Visualization" height="340px" />}>
             <StatsChart triggered={triggered} />
           </Suspense>
         </div>
 
         {/* Stat labels */}
-        <SectionTransition stagger className="grid grid-cols-2 md:grid-cols-5 gap-6">
+        <SectionTransition stagger className="card-grid grid grid-cols-2 md:grid-cols-5 gap-6">
           {stats.map(({ value, label, mono }) => (
             <div key={mono} className="text-center">
               <p

@@ -3,12 +3,12 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-let initialized = false;
+// Register once at module load — safe in "use client" context
+gsap.registerPlugin(ScrollTrigger);
 
+/** @deprecated Call is no longer needed — plugin auto-registers on import */
 export function initGSAP() {
-  if (initialized || typeof window === "undefined") return;
-  gsap.registerPlugin(ScrollTrigger);
-  initialized = true;
+  // no-op, kept for backwards compatibility
 }
 
 export function createScrollTrigger(

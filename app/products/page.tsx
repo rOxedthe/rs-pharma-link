@@ -39,20 +39,20 @@ export default function ProductsPage() {
     <>
       {/* Hero */}
       <section className="section-pad" style={{ background: "var(--color-dark)", paddingTop: "10rem" }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionTransition stagger className="max-w-2xl mb-16">
-            <p className="font-mono-label mb-4" style={{ color: "var(--color-medical)" }}>— PRODUCT CATALOG</p>
+        <div className="section-container">
+          <SectionTransition stagger className="content-measure mx-auto lg:mx-0 text-center lg:text-left mb-16">
+            <p className="font-mono-label section-kicker" style={{ color: "var(--color-medical)" }}>— PRODUCT CATALOG</p>
             <h1 style={{ fontFamily: "var(--font-display)", color: "var(--color-bg)", fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)", lineHeight: 1.1, marginBottom: "1rem" }}>
               <span style={{ color: "var(--color-accent)" }}>1,500+ Products</span>{" "}
               Ready to Ship
             </h1>
-            <p className="text-base" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
+            <p className="text-base mx-auto lg:mx-0" style={{ color: "rgba(244,241,235,0.6)", fontFamily: "var(--font-body)" }}>
               Browse our complete catalog of GMP-certified medicines. All products sourced directly from licensed manufacturers.
             </p>
           </SectionTransition>
 
           {/* 3D shelf */}
-          <div style={{ height: "380px", marginBottom: "2rem" }}>
+          <div className="scene-frame" style={{ marginBottom: "2rem", maxHeight: "380px" }}>
             <Suspense fallback={<Fallback3D label="Product Shelf" height="380px" />}>
               <ProductShelf />
             </Suspense>
@@ -62,9 +62,9 @@ export default function ProductsPage() {
 
       {/* Catalog */}
       <section className="section-pad" style={{ background: "var(--color-bg)" }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="section-container">
           {/* Filters + search */}
-          <div className="flex flex-col md:flex-row gap-4 mb-10 items-start md:items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 mb-10 items-stretch md:items-center justify-between">
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
                 <button
@@ -83,20 +83,19 @@ export default function ProductsPage() {
                 </button>
               ))}
             </div>
-            <div className="relative">
+            <div className="relative w-full md:w-auto">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--color-muted)" }} />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-9 pr-4 py-2 rounded-full text-sm outline-none"
+                className="w-full md:w-[220px] pl-9 pr-4 py-2 rounded-full text-sm outline-none"
                 style={{
                   background: "rgba(13,61,58,0.07)",
                   border: "1px solid rgba(13,61,58,0.15)",
                   color: "var(--color-text)",
                   fontFamily: "var(--font-body)",
-                  width: "220px",
                 }}
                 aria-label="Search products"
               />
@@ -104,7 +103,7 @@ export default function ProductsPage() {
           </div>
 
           {/* Product grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="card-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {filtered.map((p) => (
               <div
                 key={p.name}
