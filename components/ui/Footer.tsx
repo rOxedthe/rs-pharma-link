@@ -18,18 +18,18 @@ export default function Footer() {
   const [subscribed, setSubscribed] = useState(false);
 
   return (
-    <footer style={{ background: "var(--color-dark)", position: "relative", overflow: "hidden" }}>
+    <footer style={{ background: "#05100F", position: "relative", overflow: "hidden" }}>
 
       {/* Subtle background glow */}
       <div style={{
         position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
         width: "700px", height: "300px",
-        background: "radial-gradient(ellipse at bottom, rgba(13,61,58,0.6) 0%, transparent 70%)",
+        background: "radial-gradient(ellipse at bottom, rgba(13,61,58,0.5) 0%, transparent 70%)",
         pointerEvents: "none",
       }} />
 
-      {/* Top accent line */}
-      <div style={{ height: "1px", background: "linear-gradient(to right, transparent, var(--color-accent), transparent)" }} />
+      {/* Top separator — strong enough to clearly break from CTA */}
+      <div style={{ height: "2px", background: "linear-gradient(to right, transparent 0%, var(--color-accent) 30%, var(--color-medical) 70%, transparent 100%)" }} />
 
       {/* Main footer body */}
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-10 relative z-10">
