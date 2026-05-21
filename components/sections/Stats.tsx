@@ -35,7 +35,7 @@ export default function Stats() {
     <section
       ref={sectionRef}
       className="section-pad relative overflow-hidden"
-      style={{ background: "var(--color-bg)" }}
+      style={{ background: "var(--color-dark)" }}
     >
       <div className="max-w-7xl mx-auto px-6">
         <SectionTransition className="text-center mb-16">
@@ -44,7 +44,7 @@ export default function Stats() {
           </p>
           <h2 style={{
             fontFamily: "var(--font-display)",
-            color: "var(--color-primary)",
+            color: "var(--color-bg)",
             fontSize: "clamp(2rem, 4vw, 3rem)",
           }}>
             Why Pharmacies Choose{" "}
@@ -72,7 +72,7 @@ export default function Stats() {
               <p
                 style={{
                   fontFamily: "var(--font-mono)",
-                  color: "var(--color-primary)",
+                  color: "var(--color-accent)",
                   fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
                   fontWeight: 700,
                   lineHeight: 1,
@@ -83,7 +83,7 @@ export default function Stats() {
               </p>
               <p
                 className="text-xs"
-                style={{ color: "var(--color-muted)", fontFamily: "var(--font-body)" }}
+                style={{ color: "rgba(244,241,235,0.5)", fontFamily: "var(--font-body)" }}
               >
                 {label}
               </p>

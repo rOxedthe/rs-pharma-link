@@ -35,7 +35,7 @@ export default function Testimonials() {
   return (
     <section
       className="section-pad relative overflow-hidden"
-      style={{ background: "var(--color-dark)" }}
+      style={{ background: "var(--color-bg)" }}
     >
       <div className="max-w-7xl mx-auto px-6">
         <SectionTransition className="text-center mb-16">
@@ -44,7 +44,7 @@ export default function Testimonials() {
           </p>
           <h2 style={{
             fontFamily: "var(--font-display)",
-            color: "var(--color-bg)",
+            color: "var(--color-primary)",
             fontSize: "clamp(2rem, 4vw, 3rem)",
           }}>
             Trusted by Healthcare{" "}
@@ -63,10 +63,10 @@ export default function Testimonials() {
           {/* Testimonial cards */}
           <SectionTransition stagger className="flex flex-col gap-5">
             {testimonials.map(({ quote, name, role, initial }) => (
-              <div key={name} className="glass-card-dark p-6">
+              <div key={name} className="glass-card p-6">
                 <p
                   className="text-sm leading-relaxed mb-4 italic"
-                  style={{ color: "rgba(244,241,235,0.75)", fontFamily: "var(--font-body)" }}
+                  style={{ color: "var(--color-muted)", fontFamily: "var(--font-body)" }}
                 >
                   &ldquo;{quote}&rdquo;
                 </p>
@@ -83,7 +83,7 @@ export default function Testimonials() {
                     </span>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold" style={{ color: "var(--color-accent)", fontFamily: "var(--font-body)" }}>
+                    <p className="text-sm font-semibold" style={{ color: "var(--color-primary)", fontFamily: "var(--font-body)" }}>
                       {name}
                     </p>
                     <p className="text-xs" style={{ color: "var(--color-muted)", fontFamily: "var(--font-body)" }}>
